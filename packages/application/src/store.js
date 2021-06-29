@@ -8,5 +8,3 @@ export function mainReducer(state = { data: null }, action) {
       return state
   }
 }
-
-export const clientStore = createStore(mainReducer, JSON.parse(window.REDUX_INIT_STATE));

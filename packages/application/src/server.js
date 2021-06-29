@@ -63,9 +63,10 @@ server
     </head>
     <body>
         <div id="root">${markup}</div>
-        ${jsScriptTagsFromAssets(assets, 'client', ' defer crossorigin')}
         <script>
-          window.REDUX_INIT_STATE = "${JSON.stringify(reduxStore)}"
+          window.__REDUX_INIT_STATE = '${JSON.stringify(reduxStore)}';
+        </script>
+        ${jsScriptTagsFromAssets(assets, 'client', ' defer crossorigin')}
     </body>
 </html>`
       );

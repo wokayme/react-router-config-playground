@@ -7,7 +7,8 @@ import { renderRoutes } from "react-router-config";
 import './App.css';
 import {aboutUsRoute} from '@inside/aboutus'
 import { Provider } from 'react-redux'
-import {clientStore} from './store'
+import {mainReducer} from './store'
+import { createStore } from 'redux'
 
 const ApplicationWrapper = ({route})=>{
 
@@ -42,8 +43,9 @@ const App = () => {
       renderRoutes(routes)
     )
   }
+  console.log(window.__REDUX_INIT_STATE)
   return (
-    <Provider store={clientStore}>
+    <Provider store={createStore(mainReducer, window.__REDUX_INIT_STATE ? JSON.parse(window.__REDUX_INIT_STATE): {})}>
       {renderRoutes(routes)}
     </Provider>
   )
