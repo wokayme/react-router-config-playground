@@ -4,6 +4,9 @@ import { StaticRouter } from 'react-router-dom';
 import express from 'express';
 import { renderToString } from 'react-dom/server';
 import { matchRoutes } from "react-router-config";
+import { mainReducer } from './store'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
@@ -28,15 +31,21 @@ server
   .get('/*', async (req, res) => {
     const context = {};
 
+    const store = createStore(mainReducer);
+
     const matchingRoutes = matchRoutes(routes, req.url);
     const preloads = matchingRoutes.map(({route: {component}})=>component?.preload).filter(Boolean);
 
-    const prefetchData = await Promise.all(preloads.map(fn=>fn()))
+    const prefetchData = await Promise.all(preloads.map(fn=>fn(store.dispatch)))
+
+    const reduxStore = store.getState();
 
     const markup = renderToString(
-      <StaticRouter context={context} location={req.url}>
-        <App />
-      </StaticRouter>
+      <Provider store={store}>
+        <StaticRouter context={context} location={req.url}>
+          <App />
+        </StaticRouter>
+      </Provider>
     );
 
     if (context.url) {
@@ -55,6 +64,8 @@ server
     <body>
         <div id="root">${markup}</div>
         ${jsScriptTagsFromAssets(assets, 'client', ' defer crossorigin')}
+        <script>
+          window.REDUX_INIT_STATE = "${JSON.stringify(reduxStore)}"
     </body>
 </html>`
       );

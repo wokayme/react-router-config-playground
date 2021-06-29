@@ -3,39 +3,41 @@ import logo from './react.svg';
 import './Home.css';
 import {moduleName} from "@inside/aboutus"
 const fetch = require('node-fetch');
+import { connect } from 'react-redux'
 
+
+const enhance=connect((store)=>{
+  return ({data: store.data})
+}, {})
 class SomeDiffPage extends React.Component {
   render() {
+    if(!this.props.data){
+      return <h1>No data</h1>
+    }
+
     return (
       <div className="Home">
         <div className="Home-header">
           <img src={logo} className="Home-logo" alt="logo" />
           <h2>Welcome to SomeDiffPage</h2>
         </div>
-        <p className="Home-intro">
-          To get started, edit <code>src/App.js</code> or{' '}
-          <code>src/Home.js</code> and save to reload.
-        </p>
-        <ul className="Home-resources">
-          <li>
-            <a href="https://github.com/jaredpalmer/razzle">Docs</a>
-          </li>
-          <li>
-            <a href="https://github.com/jaredpalmer/razzle/issues">Issues</a>
-          </li>
-          <li>
-            <a href="https://palmer.chat">Community Slack</a>
-          </li>
+        <ul>
+          {this.props.data[0].rates.map(({currency, mid})=><li>
+            {currency} {mid}
+          </li>)}
         </ul>
       </div>
     );
   }
 }
 
-SomeDiffPage.preload = async () => {
+SomeDiffPage.preload = async (dispatch) => {
   return fetch('http://api.nbp.pl/api/exchangerates/tables/A/?format=json').then(res=>res.json()).then(res=>{
-    console.log(res)
+    dispatch({
+      type: 'upload',
+      data: res
+    })
   })
 }
 
-export default SomeDiffPage;
+export default enhance(SomeDiffPage);

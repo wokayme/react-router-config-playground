@@ -16,6 +16,8 @@
     "react-router-config": "^5.1.1",
     "@inside/aboutus": "1.0.0",
     "node-fetch": "2.6.1",
+    "react-redux": "7.2.4",
+    "redux": "4.1.0",
     "react-router-dom": "^5.2.0"
   },
   "devDependencies": {

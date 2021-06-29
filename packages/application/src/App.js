@@ -6,6 +6,8 @@ import About from './About';
 import { renderRoutes } from "react-router-config";
 import './App.css';
 import {aboutUsRoute} from '@inside/aboutus'
+import { Provider } from 'react-redux'
+import {clientStore} from './store'
 
 const ApplicationWrapper = ({route})=>{
 
@@ -33,8 +35,18 @@ export const routes = [
  
 
 const App = () => {
+  const isServer = !(typeof window === 'object');
+  console.log(isServer)
+  if(isServer){
+    return (
+      renderRoutes(routes)
+    )
+  }
   return (
-    renderRoutes(routes)
-)};
+    <Provider store={clientStore}>
+      {renderRoutes(routes)}
+    </Provider>
+  )
+};
 
 export default App;
