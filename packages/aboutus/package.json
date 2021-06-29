@@ -1,0 +1,68 @@
+{
+  "name": "@inside/aboutus",
+  "version": "1.0.0",
+  "description": "",
+  "module": "build/esm/index.js",
+  "main": "build/cjs/index.js",
+  "types": "build/cjs/index.d.ts",
+  "files": [
+    "build",
+    "after.js",
+    "document.js",
+    "asyncComponent.js",
+    "ensureReady.js",
+    "render.js",
+    "loadInitialProps.js",
+    "serializeData.js",
+    "getAssets.js"
+  ],
+
+  "scripts": {
+    "start": "webpack serve --config ./webpack.config.js --mode development",
+    "build": "webpack --config ./webpack.config.js --mode production",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "rm -rf build && npm run build:esm && npm run build:cjs",
+    "build:esm": "tsc -p tsconfig.json --module es2015 --outDir build/esm",
+    "build:cjs": "tsc -p tsconfig.json --module commonjs --outDir build/cjs"
+  },
+  "author": "",
+  "license": "ISC",
+  "peerDependencies": {
+    "express": ">=4",
+    "razzle-dev-utils": ">=3.0.0",
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0",
+    "react-helmet": ">=6.0.0",
+    "react-router-config": "^5.1.1",
+    "react-router-dom": "^5.2.0",
+    "serialize-javascript": ">=3.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.3",
+    "@types/jest": "^25.2.1",
+    "@types/node": "^13.13.2",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.6",
+    "@types/react-helmet": "^5.0.15",
+    "@types/react-router-dom": "^5.1.4",
+    "@types/serialize-javascript": "^1.5.0",
+    "@typescript-eslint/eslint-plugin": "^2.29.0",
+    "@typescript-eslint/parser": "^2.29.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-react": "^7.19.0",
+    "express": "^4.17.1",
+    "jest": "^25.4.0",
+    "razzle": "^3.1.0",
+    "razzle-dev-utils": "^3.1.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-helmet": "^6.0.0",
+    "react-router-dom": "^5.2.0",
+    "serialize-javascript": "^3.0.0",
+    "ts-jest": "^25.4.0",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "babel-plugin-after": "^3.1.3"
+  }
+}

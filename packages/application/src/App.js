@@ -4,9 +4,13 @@ import Home from './Home';
 import About from './About';
 import { renderRoutes } from "react-router-config";
 import './App.css';
+import {aboutUsRoute} from '@inside/aboutus'
 
 const ApplicationWrapper = ({route})=>{
-  return <div>{renderRoutes(route.routes)}</div>
+
+  console.log('!!!')
+  console.log(route.routes)
+  return <div>{route.routes && renderRoutes(route.routes)}</div>
 }
 
 const routes = [
@@ -18,11 +22,7 @@ const routes = [
         exact: true,
         component: Home
       },
-      {
-        path: "/about",
-        exact: true,
-        component: About
-      },
+      aboutUsRoute,
     ]
   }
 ];
