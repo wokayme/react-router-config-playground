@@ -1,8 +1,9 @@
-import App from './App';
+import App, {routes} from './App';
 import React from 'react';
 import { StaticRouter } from 'react-router-dom';
 import express from 'express';
 import { renderToString } from 'react-dom/server';
+import { matchRoutes } from "react-router-config";
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
@@ -24,8 +25,14 @@ const server = express();
 server
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
-  .get('/*', (req, res) => {
+  .get('/*', async (req, res) => {
     const context = {};
+
+    const matchingRoutes = matchRoutes(routes, req.url);
+    const preloads = matchingRoutes.map(({route: {component}})=>component?.preload).filter(Boolean);
+
+    const prefetchData = await Promise.all(preloads.map(fn=>fn()))
+
     const markup = renderToString(
       <StaticRouter context={context} location={req.url}>
         <App />
